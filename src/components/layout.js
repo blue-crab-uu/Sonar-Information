@@ -1,51 +1,28 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.com/docs/how-to/querying-data/use-static-query/
- */
-
-import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-
+import React from "react"
 import Header from "./header"
 import "./layout.css"
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: `var(--size-content)`,
-          padding: `var(--size-gutter)`,
-        }}
-      >
-        <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `var(--space-5)`,
-            fontSize: `var(--font-sm)`,
-          }}
-        >
-          © {new Date().getFullYear()} &middot; Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
+    <div className="page-container">
+      {/* 1. 顶部固定导航 */}
+      <Header />
+
+      {/* 2. 中央内容卡片 */}
+      <div className="main-content">
+        <main className="main-body">
+          {children}
+        </main>
+        
+        {/* 3. 放在卡片底部的页脚 */}
+        <footer className="footer">
+          <p className="footer-slogan">声纳信息 © 2025</p>
+          <p className="footer-info">Sonar Information ❤️ </p>
         </footer>
       </div>
-    </>
+    </div>
   )
 }
 
 export default Layout
+

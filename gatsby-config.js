@@ -7,37 +7,32 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+
+require('dotenv').config();
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
-    siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
+    title: `声呐信息 | Sonar Information`,
+    description: `深耕 DAO 治理，探测全球治理提案，提供精准的中文翻译与摘要。`,
+    author: `@SonarInfo`,
+    siteUrl: `https://your-domain.com`, // 替换为你的域名
   },
   plugins: [
-    `gatsby-plugin-image`,
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
+        trackingIds: [
+          process.env.GA_TRACKING_ID, 
+        ],
+        pluginConfig: {
+          head: true,
+        },
       },
     },
+    `gatsby-plugin-styled-components`,
+    `gatsby-plugin-image`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    {
-      resolve: `gatsby-plugin-manifest`,
-      options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
-      },
-    },
+    
   ],
 }

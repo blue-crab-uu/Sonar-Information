@@ -1,0 +1,181 @@
+/* .header {
+    --glass-x: 50%;
+    --glass-y: 50%;
+    --glass-tilt-x: 0deg;
+    --glass-tilt-y: 0deg;
+    --glass-blur: 4px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(240, 243, 255, 0.016));
+    color: #ff6600;
+    padding: 8px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(var(--glass-blur)) saturate(125%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 3px 12px -6px rgba(15, 23, 42, 0.24), 0 10px 28px -14px rgba(15, 23, 42, 0.2), 0 32px 40px -30px rgba(15, 23, 42, 0.16);
+    isolation: isolate;
+    overflow: hidden;
+    transform: perspective(1400px) rotateX(var(--glass-tilt-x)) rotateY(var(--glass-tilt-y));
+    transform-style: preserve-3d;
+    transition: border-bottom-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease, background 0.25s ease;
+} */
+
+
+/* 容器：固定在顶部 */
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  z-index: 1000;
+  /* 毛玻璃效果：背景半透明并模糊 */
+  background-color: rgba(200, 178, 178, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center; /* 居中对齐内容 */
+  transition: all 0.3s ease;
+}
+.header-container:hover {
+  background-color: rgba(142, 94, 110, 0.8); /* 背景变实，减少透明度 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);   /* 增加悬浮阴影 */
+  border-bottom: 1px solid rgba(0, 113, 227, 0.2); /* 底部边框变亮（浅蓝色调） */
+}
+/* 内容限制宽度 */
+.header-content {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between; /* 标题在左，按钮在右 */
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* 标题样式 */
+.header-logo a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0d0d35;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  transition: opacity 0.2s ease;
+}
+
+.header-logo a:hover {
+  opacity: 0.7;
+}
+
+/* 导航区域 */
+.header-nav {
+  display: flex;
+  gap: 12px; /* 按钮之间的间距 */
+}
+
+/* 按钮样式 */
+.nav-btn {
+  text-decoration: none;
+  color: #515154;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 平滑动画曲线 */
+}
+
+/* 悬停时的简单变化：背景变淡灰，文字颜色加深 */
+.nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #000;
+  transform: translateY(-1px); /* 微小的上浮感 */
+}
+
+/* 被激活时的样式（当前页面） */
+.nav-btn.active {
+  background-color: #0071e3; /* 经典的蓝色激活块 */
+  color: #fff;
+}
+/* 鼠标移入 Header 时，让 Logo 动一下 */
+.header-container:hover .header-logo a {
+  color: #0071e3; /* 标题变色 */
+  transform: scale(1.02); /* 微微放大 */
+  display: inline-block; /* 确保 transform 生效 */
+  transition: all 0.3s ease;
+}
+/* --- header.css 新增部分 --- */
+
+/* 让图标和文字水平对齐并居中 */
+.brand-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1d1d1f; /* 默认文字颜色 */
+}
+
+/* 文字样式调整 */
+.brand-text {
+  font-weight: 700;
+  font-size: 1.2rem;
+  /* 鼠标悬停整个区域时，文字也变蓝 */
+  transition: color 0.3s ease;
+}
+.brand-link:hover .brand-text {
+  color: #0071e3;
+}
+
+
+/* =========================================
+   声呐图标 CSS 核心代码
+   ========================================= */
+
+/* 图标容器：定位基准点 */
+.sonar-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; /* 图标和文字之间的距离 */
+}
+
+/* 1. 中心的实心点 */
+.sonar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #0071e3; /* 核心蓝色 */
+  z-index: 2; /* 保证点在波纹上面 */
+}
+
+/* 2. 波纹通用样式 */
+.sonar-wave {
+  position: absolute;
+  width: 100%; /* 初始大小和容器一样大 */
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 113, 227, 0.5); /* 半透明的蓝色边框 */
+  opacity: 0; /* 初始不可见 */
+  /* 应用动画：名字 时长 无限循环 缓动函数 */
+  animation: sonar-effect 2.5s infinite ease-out;
+}
+
+/* 第二个波纹延迟发射，制造层次感 */
+.sonar-wave-delayed {
+  animation-delay: 0.8s; /* 延迟 0.8秒 */
+}
+
+/* 定义动画关键帧 */
+@keyframes sonar-effect {
+  0% {
+    transform: scale(0.1); /* 从很小开始 */
+    opacity: 0.8; /* 初始透明度 */
+  }
+  50% {
+    opacity: 0.3; /* 中途变淡 */
+  }
+  100% {
+    transform: scale(2); /* 扩散到 2 倍大 */
+    opacity: 0; /* 最后完全消失 */
+  }
+}
