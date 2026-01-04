@@ -36,7 +36,7 @@ const IndexPage = ({ data }) => {
             </span>
             
             <div className={styles.proposalMeta}>
-              来自 <span className={styles.spaceBadge}>{proposal.spaceName}</span>
+              From <span className={styles.spaceBadge}>{proposal.spaceName}</span>
             </div>
           </Link>
         ))}

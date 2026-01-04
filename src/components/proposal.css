@@ -1,0 +1,120 @@
+
+.space-link {
+  /* 基础形状：椭圆块 */
+  display: inline-block;
+  padding: 4px 16px;
+  background-color: #f5f5f7; /* 浅灰色背景，类似苹果风格 */
+  color: #0071e3;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 20px; /* 足够大的半径形成椭圆 */
+  
+  /* 动画过渡：平滑改变背景色和阴影 */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+}
+
+.space-link:hover {
+  background-color: #0071e3; /* 悬停变蓝色 */
+  color: #ffffff;            /* 文字变白 */
+  transform: translateY(-2px); /* 轻微上浮感 */
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3); /* 蓝色发光阴影 */
+  border-color: #0071e3;
+}
+
+/* 文字动态效果：悬停时文字微微“跳动”或放大 */
+.space-link:active {
+  transform: scale(0.95); /* 点击时缩小的反馈 */
+}
+
+/* 进阶动态：文字间隔扩张效果 */
+.space-link:hover {
+  letter-spacing: 0.5px; /* 字母间距微微张开，像声波扩散 */
+}
+.proposal-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px; /* 👈 这里控制两个椭圆块之间的间距，12px 比较自然 */
+  font-size: 0.9rem;
+  color: #3c3c4b; /* 淡淡的灰色，不抢主体的风头 */
+}
+
+/* "From" 标签的样式 */
+.from-label {
+  margin-right: -4px; /* 让 From 稍微靠近后面的名字 */
+  font-style: italic;
+  font-family: serif; /* 衬线体增加一点人文感 */
+  opacity: 0.8;
+}
+
+/* 原文链接的特殊样式 (可选) */
+/* 如果你想让“原文链接”和“项目名”有所区别，可以稍微改一下它的背景 */
+.original-link {
+  background-color: transparent;
+  border: 1px solid #d2d2d7; /* 变成细边框模式 */
+  color: #424245;
+}
+
+.original-link:hover {
+  background-color: #424245; /* 悬停变深色 */
+  border-color: #424245;
+  color: #ffffff;
+}
+.proposal-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  line-height: 1.6;
+  color: #1d1d1f;
+}
+
+.detail-title {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+/* Markdown 内容区样式 */
+.markdown-body {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.markdown-body p {
+  margin-bottom: 1.2rem;
+}
+
+.markdown-body ul, .markdown-body ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.markdown-body li {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-body strong {
+  color: #0071e3; /* 给加粗文字一点品牌色 */
+}
+
+.markdown-body blockquote {
+  border-left: 4px solid #d2d2d7;
+  padding-left: 1rem;
+  color: #6e6e73;
+  margin: 1.5rem 0;
+}
+
+/* 分隔线样式 */
+.divider {
+  border: 0;
+  border-top: 1px solid #d2d2d7;
+  margin: 2rem 0;
+}

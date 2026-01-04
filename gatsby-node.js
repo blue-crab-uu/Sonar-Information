@@ -15,4 +15,5 @@ exports.sourceNodes = async (...args) => {
 
 exports.createPages = async (...args) => {
   await require('./gatsby/createProposalPages.js').createPages(...args);
+  await require('./gatsby/createSpacePages.js').createPages(...args);
 };

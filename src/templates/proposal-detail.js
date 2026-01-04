@@ -1,8 +1,9 @@
 import React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 import Layout from "../components/layout";
+import ReactMarkdown from "react-markdown"; // 1. 引入插件
+import "../components/proposal.css";
 
-// 注意：必须使用 export default
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
   
@@ -10,15 +11,38 @@ const ProposalDetailTemplate = ({ data }) => {
 
   return (
     <Layout>
-    <div style={{ padding: "2rem" }}>
-      <h1>{proposal.translated_title}</h1>
-      <span>From {proposal.spaceName}</span>
-      <hr />
-      <h2>摘要</h2>
-      <p>{proposal.short_summary}</p>
-      <hr />
-      <h2>提案内容</h2>
-      <div style={{ whiteSpace: "pre-wrap" }}>{proposal.translated_body}</div>
+    <div className="proposal-detail-container">
+      <h1 className="detail-title">{proposal.translated_title}</h1>
+      
+      <span className="proposal-meta">
+        <span className="from-label">From</span> 
+        <Link className="space-link" to={`/spaces/${proposal.spaceName}`}>
+          {proposal.spaceName}
+        </Link>
+        <a className="space-link original-link" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           href={`https://snapshot.box/#/s:${proposal.spaceName}/proposal/${proposal.proposalId}`}>
+          原文链接
+        </a>
+      </span>
+
+      <hr className="divider" />
+      
+      <section className="summary-section">
+        <h2>摘要</h2>
+        <p className="summary-text">{proposal.short_summary}</p>
+      </section>
+
+      <hr className="divider" />
+
+      <section className="content-section">
+        <h2>提案内容</h2>
+        {/* 2. 使用 ReactMarkdown 渲染内容 */}
+        <div className="markdown-body">
+          <ReactMarkdown>{proposal.translated_body}</ReactMarkdown>
+        </div>
+      </section>
     </div>
     </Layout>
   )
@@ -31,8 +55,9 @@ export const query = graphql`
       translated_body
       translated_title
       spaceName
+      proposalId
     }
   }
 `
 
-export default ProposalDetailTemplate 
+export default ProposalDetailTemplate

@@ -21,6 +21,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
         proposals.forEach((proposal) => {
           const nodeData = {
             ...proposal,
+            proposalId: proposal.id,
             spaceName: spaceId,   
             id: createNodeId(`proposal-${proposal.id}`),
             internal: {

@@ -28,8 +28,8 @@ const Header = () => {
           <Link className="nav-btn" activeClassName="active" to="/search">
             搜索
           </Link>
-          <Link className="nav-btn" activeClassName="active" to="/archive">
-            归档
+          <Link className="nav-btn" activeClassName="active" to="/spaces">
+            Spaces
           </Link>
         </nav>
       </div>

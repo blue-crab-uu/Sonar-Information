@@ -14,7 +14,9 @@
     display: block;
     text-decoration: none; /* 让整个块作为链接 */
 }
-
+.proposalCard:first-child {
+    margin-top: 20px;
+}
 .proposalCard:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -77,3 +79,4 @@
     font-size: 0.9rem;
     color: #555;
 }
+
