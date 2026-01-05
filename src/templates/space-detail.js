@@ -1,99 +1,104 @@
 import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import * as styles from "../components/index.module.css" // 导入 CSS Module
+import "../components/space-detail.css" // 🚩 引入新的 CSS
 
 const SpaceDetailTemplate = ({ data }) => {
-const spaceInfo = data.spaceInfo;
-const proposals = data.allProposal.nodes;
+  const spaceInfo = data.spaceInfo;
+  const proposals = data.allProposal.nodes;
 
-const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 20
   
-  // 计算当前页应该显示的数据
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentProposals = proposals.slice(indexOfFirstItem, indexOfLastItem)
-  
-  // 总页数
   const totalPages = Math.ceil(proposals.length / itemsPerPage)
 
   return (
     <Layout>
-
-    {/* --- 新增：空间信息头部 --- */}
-    <div style={{ 
-    padding: "0.5rem 2rem 0", // 👈 将 2rem 改为 0.5rem，垂直方向立刻收紧
-    maxWidth: "1400px", 
-    margin: "0 auto",
-    marginTop: "-1rem"       // 👈 如果还是觉得低，可以加一个负边距向上拉
-    }}>
-    <h1 style={{ fontSize: "2rem", marginBottom: "0.5rem", marginTop: "0" }}> 
-    {/* 🚩 注意：给 h1 也加上 marginTop: 0，防止浏览器自带的标题间距占位 */}
-    {spaceInfo.space} 空间站
-    </h1>
-    <div style={{ color: "#666", fontSize: "0.9rem", display: "flex", gap: "15px" }}>
-    <span>📊 提案总数: <strong>{spaceInfo.proposalsCount}</strong></span>
-    <span>👥 关注人数: <strong>{spaceInfo.followersCount}</strong></span>
-    </div>
-    </div>
-
-      <div className={styles.listContainer}>
-        {currentProposals.map((proposal, index) => (
-          
-          <Link 
-            key={proposal.id} 
-            to={`/${proposal.spaceName}/${proposal.id}`} 
-            className={styles.proposalCard}
-          >
-            <span className={styles.proposalTitle}>
-              <span style={{ color: "#828282", marginRight: "8px", fontSize: "0.9rem" }}>
-                {indexOfFirstItem + index + 1}.
-              </span>
-              {proposal.translated_title}
-            </span>
-            
-            <div className={styles.proposalMeta}>
-              From <span className={styles.spaceBadge}>{proposal.spaceName}</span>
+      <div className="detail-container">
+        
+        {/* --- 空间信息头部 --- */}
+        <header className="space-header-section">
+          <h1>{spaceInfo.name || spaceInfo.space} 空间站</h1>
+          <div className="space-stats-bar">
+            <div className="stat-item">
+              📊 提案总数: <strong>{spaceInfo.proposalsCount}</strong>
             </div>
-          </Link>
-        ))}
-      </div>
+            <div className="stat-item">
+              👥 关注人数: <strong>{spaceInfo.followersCount}</strong>
+            </div>
+          </div>
+        </header>
 
-      {/* --- 分页导航条 --- */}
-      {totalPages > 1 && (
-        <div className={styles.pagination}>
-          <button 
-            className={styles.pageBtn}
-            onClick={() => {
-              setCurrentPage(prev => Math.max(prev - 1, 1))
-              window.scrollTo(0, 0) // 翻页后回到顶部
-            }}
-            disabled={currentPage === 1}
-          >
-            上一页
-          </button>
+        {/* --- 提案列表 --- */}
+        <div className="proposal-list-wrapper">
+          {currentProposals.map((proposal, index) => {
+            // 在循环内部处理日期显示
+            const dateStr = new Date(proposal.created * 1000).toLocaleDateString('zh-CN', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            });
 
-          <span className={styles.pageInfo}>
-            第 {currentPage} 页 / 共 {totalPages} 页
-          </span>
-
-          <button 
-            className={styles.pageBtn}
-            onClick={() => {
-              setCurrentPage(prev => Math.min(prev + 1, totalPages))
-              window.scrollTo(0, 0)
-            }}
-            disabled={currentPage === totalPages}
-          >
-            下一页
-          </button>
+            return (
+              <Link 
+                key={proposal.id} 
+                to={`/${proposal.spaceName}/${proposal.id}`} 
+                className="proposal-card-link"
+              >
+                <div className="proposal-title-row">
+                  <span className="proposal-index">
+                    {String(indexOfFirstItem + index + 1).padStart(2, '0')}
+                  </span>
+                  {proposal.translated_title}
+                </div>
+                
+                <div className="proposal-meta-row">
+                  From <span className="badge-space">{proposal.spaceName}</span>
+                  <span className="time-stamp">📅 创建于: {dateStr}</span>
+                </div>
+              </Link>
+            )
+          })}
         </div>
-      )}
+
+        {/* --- 分页导航 --- */}
+        {totalPages > 1 && (
+          <nav className="pagination-nav">
+            <button 
+              className="nav-btn"
+              onClick={() => {
+                setCurrentPage(prev => Math.max(prev - 1, 1))
+                window.scrollTo(0, 0)
+              }}
+              disabled={currentPage === 1}
+            >
+              上一页
+            </button>
+
+            <span className="page-indicator">
+              第 {currentPage} / {totalPages} 页
+            </span>
+
+            <button 
+              className="nav-btn"
+              onClick={() => {
+                setCurrentPage(prev => Math.min(prev + 1, totalPages))
+                window.scrollTo(0, 0)
+              }}
+              disabled={currentPage === totalPages}
+            >
+              下一页
+            </button>
+          </nav>
+        )}
+      </div>
     </Layout>
   )
-
 }
+
 
 export const query = graphql`
   query($spaceName: String!) {
@@ -102,12 +107,14 @@ export const query = graphql`
       followersCount
       id
       proposalsCount
+      name
     }
     allProposal(filter: {spaceName: {eq: $spaceName}}) {
     nodes {
       translated_title
       spaceName
       id
+      
     }
   }
   }

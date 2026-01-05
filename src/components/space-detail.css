@@ -1,0 +1,141 @@
+/* 页面容器 */
+.detail-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+/* 顶部空间信息头部 */
+.space-header-section {
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1.5rem;
+}
+
+.space-header-section h1 {
+  font-size: 2.2rem;
+  color: #1a1a1a;
+  margin: 0 0 0.8rem 0;
+  letter-spacing: -0.5px;
+}
+
+.space-stats-bar {
+  display: flex;
+  gap: 20px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0f4f8;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.stat-item strong {
+  color: #0071e3;
+}
+
+/* 提案列表容器 */
+.proposal-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 提案卡片 */
+.proposal-card-link {
+  display: block;
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 12px;
+  padding: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.proposal-card-link:hover {
+  transform: translateY(-3px);
+  border-color: #0071e3;
+  box-shadow: 0 10px 20px rgba(0, 113, 227, 0.1);
+}
+
+.proposal-title-row {
+  display: flex;
+  align-items: flex-start;
+  font-size: 1.15rem;
+  color: #1d1d1f;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.proposal-index {
+  color: #adb5bd;
+  font-family: monospace;
+  margin-right: 12px;
+  font-weight: bold;
+}
+
+/* 提案元数据 */
+.proposal-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #86868b;
+}
+
+.badge-space {
+  background: #0071e3;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.time-stamp {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 分页导航 */
+.pagination-nav {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-btn {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid #0071e3;
+  background: #fff;
+  color: #0071e3;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: #0071e3;
+  color: #fff;
+}
+
+.nav-btn:disabled {
+  border-color: #d2d2d7;
+  color: #d2d2d7;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: #1d1d1f;
+  font-weight: 500;
+}

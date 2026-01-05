@@ -5,7 +5,6 @@ import * as styles from "../components/index.module.css" // 导入 CSS Module
 
 const IndexPage = ({ data }) => {
   const allProposals = data.allProposal.nodes
-  
   // --- 分页逻辑 ---
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 20
@@ -23,6 +22,7 @@ const IndexPage = ({ data }) => {
       <div className={styles.listContainer}>
         {currentProposals.map((proposal, index) => (
           
+          
           <Link 
             key={proposal.id} 
             to={`/${proposal.spaceName}/${proposal.id}`} 
@@ -37,6 +37,9 @@ const IndexPage = ({ data }) => {
             
             <div className={styles.proposalMeta}>
               From <span className={styles.spaceBadge}>{proposal.spaceName}</span>
+              <span className={styles.spaceBadge}>
+              创建于: {new Date(proposal.created * 1000).toLocaleDateString()}
+              </span> 
             </div>
           </Link>
         ))}
@@ -83,6 +86,7 @@ export const query = graphql`
       translated_title
       id
       spaceName
+      created
     }
   }
   }

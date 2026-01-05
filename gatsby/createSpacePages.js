@@ -11,9 +11,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       space
       id
       followersCount
+      name
     }
     }
-    }
+   }
   `);
 
   if (result.errors) {

@@ -1,0 +1,127 @@
+.spaces-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  padding-top: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1d1d1f;
+  border-left: 5px solid #0071e3;
+  padding-left: 15px;
+}
+
+/* 列表网格 */
+.space-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* 空间卡片 - 椭圆块状设计 */
+.space-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  border: 1px solid #e5e5e7;
+  border-radius: 50px; /* 强制椭圆化 */
+  text-decoration: none;
+  color: #333;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* 悬停效果：变色 & 微微放大 */
+.space-card:hover {
+  background-color: #0071e3; /* 苹果蓝/声呐深蓝 */
+  color: white !important;
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0, 113, 227, 0.2);
+  border-color: transparent;
+}
+
+/* 头部信息：索引与名称 */
+.space-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.space-index {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-right: 10px;
+  opacity: 0.5;
+}
+
+.space-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: letter-spacing 0.3s ease; /* 动态文字间距 */
+}
+
+.space-card:hover .space-name {
+  letter-spacing: 1px; /* 悬停时文字微微拉开，模仿波纹扩散 */
+}
+
+/* 统计数据区 */
+.space-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.meta-badge {
+  background: #f5f5f7;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: #86868b;
+  transition: background 0.3s;
+}
+
+.space-card:hover .meta-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* 分页样式 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  gap: 20px;
+}
+
+.page-btn {
+  padding: 10px 25px;
+  border-radius: 25px;
+  border: 1px solid #0071e3;
+  background: white;
+  color: #0071e3;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #0071e3;
+  color: white;
+}
+
+.page-btn:disabled {
+  border-color: #d2d2d7;
+  color: #d2d2d7;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: #86868b;
+}

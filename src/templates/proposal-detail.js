@@ -6,7 +6,7 @@ import "../components/proposal.css";
 
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
-  
+  const created = new Date(proposal.created * 1000);
   if (!proposal) return <div>未找到提案</div>;
 
   return (
@@ -25,6 +25,7 @@ const ProposalDetailTemplate = ({ data }) => {
            href={`https://snapshot.box/#/s:${proposal.spaceName}/proposal/${proposal.proposalId}`}>
           原文链接
         </a>
+        <span className="created-date">创建于: {created.toLocaleDateString()}</span>
       </span>
 
       <hr className="divider" />
@@ -56,6 +57,7 @@ export const query = graphql`
       translated_title
       spaceName
       proposalId
+      created
     }
   }
 `
