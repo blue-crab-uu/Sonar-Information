@@ -114,7 +114,7 @@ export const query = graphql`
       translated_title
       spaceName
       id
-      
+      created
     }
   }
   }
