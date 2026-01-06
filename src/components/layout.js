@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
         
         {/* 3. 放在卡片底部的页脚 */}
         <footer className="footer">
-          <p className="footer-slogan">声纳信息 © 2025</p>
+          <p className="footer-slogan">声纳信息 © 2026</p>
           <p className="footer-info">Sonar Information ❤️ </p>
         </footer>
       </div>

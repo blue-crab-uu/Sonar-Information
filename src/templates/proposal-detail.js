@@ -2,12 +2,16 @@ import React from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout";
 import ReactMarkdown from "react-markdown"; // 1. 引入插件
+import remarkGfm from 'remark-gfm';
 import "../components/proposal.css";
 
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
   const created = new Date(proposal.created * 1000);
   if (!proposal) return <div>未找到提案</div>;
+  
+
+
 
   return (
     <Layout>
@@ -41,7 +45,7 @@ const ProposalDetailTemplate = ({ data }) => {
         <h2>提案内容</h2>
         {/* 2. 使用 ReactMarkdown 渲染内容 */}
         <div className="markdown-body">
-          <ReactMarkdown>{proposal.translated_body}</ReactMarkdown>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposal.translated_body}</ReactMarkdown>
         </div>
       </section>
     </div>

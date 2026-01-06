@@ -88,7 +88,7 @@ export const query = graphql`
       spaceName
       created
     }
-  }
+   }
   }
 `
 

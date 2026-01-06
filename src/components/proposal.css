@@ -118,3 +118,28 @@
   border-top: 1px solid #d2d2d7;
   margin: 2rem 0;
 }
+
+/* 确保表格有边框和间距 */
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  display: block;      /* 允许移动端横向滚动 */
+  overflow-x: auto;
+}
+
+.markdown-body th, .markdown-body td {
+  border: 1px solid #dfe2e5;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+.markdown-body th {
+  background-color: #f6f8fa;
+  font-weight: bold;
+}
+
+/* 隔行变色，让资产列表更易读 */
+.markdown-body tr:nth-child(even) {
+  background-color: #fafbfc;
+}
