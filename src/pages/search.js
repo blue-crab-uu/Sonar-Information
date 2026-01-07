@@ -1,18 +1,21 @@
 import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import "../components/space-detail.css" // 复用你已经写好的样式
+import "../components/space-detail.css"
+// 导入主页的 CSS Module 来复用导航栏样式，确保 UI 统一
+import * as navStyles from "../components/index.module.css" 
 
 const SearchPage = ({ data }) => {
   const allProposals = data.allProposal.nodes
   const [searchQuery, setSearchQuery] = useState("")
+  const [activeSort, setActiveSort] = useState("latest") // 默认选中最新
 
-  // 核心搜索逻辑：过滤标题或所属空间名
   const filteredProposals = allProposals.filter(proposal => {
     const title = proposal.translated_title?.toLowerCase() || ""
     const space = proposal.spaceName?.toLowerCase() || ""
+    const spaceDetailsName = proposal.spaceDetails.name?.toLowerCase() || ""
     const query = searchQuery.toLowerCase()
-    return title.includes(query) || space.includes(query)
+    return title.includes(query) || space.includes(query) || spaceDetailsName.includes(query)
   })
 
   return (
@@ -42,6 +45,17 @@ const SearchPage = ({ data }) => {
           </p>
         </header>
 
+        {/* --- 新增：与主页一致的导航栏 --- */}
+        <nav className={navStyles.topNav} style={{ paddingLeft: "1.5rem", paddingRight: "1.5rem" }}>
+          <button 
+            className={`${navStyles.navItem} ${activeSort === "latest" ? navStyles.activeNav : ""}`}
+            onClick={() => setActiveSort("latest")}
+          >
+            最新发布
+          </button>
+          {/* 预留位置：未来可以增加“相关度排序”按钮 */}
+        </nav>
+
         <div className="proposal-list-wrapper">
           {filteredProposals.length > 0 ? (
             filteredProposals.slice(0, 50).map((proposal, index) => (
@@ -55,7 +69,7 @@ const SearchPage = ({ data }) => {
                   {proposal.translated_title}
                 </div>
                 <div className="proposal-meta-row">
-                  From <span className="badge-space">{proposal.spaceName}</span>
+                  From <span className="badge-space">{proposal.spaceDetails.name}</span>
                   <span>📅 {new Date(proposal.created * 1000).toLocaleDateString()}</span>
                 </div>
               </Link>
@@ -79,6 +93,9 @@ export const query = graphql`
         translated_title
         spaceName
         created
+        spaceDetails {
+          name
+        }
       }
     }
   }

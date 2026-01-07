@@ -1,21 +1,57 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react" // 引入 useMemo 优化性能
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
 import "../components/space.css"
+
 const SpacesPage = ({ data }) => {
   const allSpaces = data.allSpaceInfo.nodes
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 21
+  const [searchTerm, setSearchTerm] = useState("") // 🔍 1. 增加搜索状态
   
+  const itemsPerPage = 21
+
+  // 🔍 2. 根据搜索词过滤数据
+  const filteredSpaces = useMemo(() => {
+    return allSpaces.filter(space => {
+      const sName = (space.name || "").toLowerCase()
+      const sId = (space.space || "").toLowerCase()
+      const search = searchTerm.toLowerCase()
+      return sName.includes(search) || sId.includes(search)
+    })
+  }, [allSpaces, searchTerm])
+
+  // 🔍 3. 搜索后重新计算分页
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentSpaces = allSpaces.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(allSpaces.length / itemsPerPage)
+  const currentSpaces = filteredSpaces.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredSpaces.length / itemsPerPage)
+
+  // 处理搜索输入变更
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+    setCurrentPage(1) // 🔍 搜索时重置回第一页
+  }
 
   return (
     <Layout>
       <div className="spaces-container">
-        <h1 className="page-title">📡 探测到的治理空间</h1>
+        <h1 className="page-title">📡 探测到的空间</h1>
+
+        {/* 🔍 4. 增加搜索框 UI */}
+        <div className="search-section">
+          <input
+            type="text"
+            className="space-search-input"
+            placeholder="搜索空间名称"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          {searchTerm && (
+            <p className="search-result-count">
+              共找到 {filteredSpaces.length} 个结果
+            </p>
+          )}
+        </div>
         
         <div className="space-grid">
           {currentSpaces.map((space, index) => (
@@ -38,6 +74,13 @@ const SpacesPage = ({ data }) => {
             </Link>
           ))}
         </div>
+
+        {/* 无结果时的提示 */}
+        {filteredSpaces.length === 0 && (
+          <div className="no-results">
+            🚀 未找到匹配的空间，换个词试试？
+          </div>
+        )}
 
         {/* --- 分页导航条 --- */}
         {totalPages > 1 && (

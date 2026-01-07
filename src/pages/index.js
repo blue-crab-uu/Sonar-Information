@@ -1,28 +1,36 @@
 import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
-import * as styles from "../components/index.module.css" // 导入 CSS Module
+import * as styles from "../components/index.module.css"
 
 const IndexPage = ({ data }) => {
   const allProposals = data.allProposal.nodes
-  // --- 分页逻辑 ---
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 20
   
-  // 计算当前页应该显示的数据
+  // --- 状态管理 ---
+  const [currentPage, setCurrentPage] = useState(1)
+  const [activeSort, setActiveSort] = useState("latest") // 默认为“最新”
+  
+  const itemsPerPage = 20
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentProposals = allProposals.slice(indexOfFirstItem, indexOfLastItem)
-  
-  // 总页数
   const totalPages = Math.ceil(allProposals.length / itemsPerPage)
 
   return (
     <Layout>
+      {/* --- 新增导航栏 --- */}
+      <nav className={styles.topNav}>
+        <button 
+          className={`${styles.navItem} ${activeSort === "latest" ? styles.activeNav : ""}`}
+          onClick={() => setActiveSort("latest")}
+        >
+          最新发布
+        </button>
+        {/* 这里未来可以增加其他按钮，如：<button className={styles.navItem}>热门</button> */}
+      </nav>
+
       <div className={styles.listContainer}>
         {currentProposals.map((proposal, index) => (
-          
-          
           <Link 
             key={proposal.id} 
             to={`/${proposal.spaceName}/${proposal.id}`} 
@@ -36,23 +44,23 @@ const IndexPage = ({ data }) => {
             </span>
             
             <div className={styles.proposalMeta}>
-              From <span className={styles.spaceBadge}>{proposal.spaceName}</span>
+              From <span className={styles.spaceBadge}>{proposal.spaceDetails.name}</span>
               <span className={styles.spaceBadge}>
-              创建于: {new Date(proposal.created * 1000).toLocaleDateString()}
+                创建于: {new Date(proposal.created * 1000).toLocaleDateString()}
               </span> 
             </div>
           </Link>
         ))}
       </div>
 
-      {/* --- 分页导航条 --- */}
+      {/* --- 分页导航条 (保持不变) --- */}
       {totalPages > 1 && (
         <div className={styles.pagination}>
           <button 
             className={styles.pageBtn}
             onClick={() => {
               setCurrentPage(prev => Math.max(prev - 1, 1))
-              window.scrollTo(0, 0) // 翻页后回到顶部
+              window.scrollTo(0, 0)
             }}
             disabled={currentPage === 1}
           >
@@ -82,13 +90,16 @@ const IndexPage = ({ data }) => {
 export const query = graphql`
   query {
     allProposal(sort: {created: DESC}) {
-    nodes {
-      translated_title
-      id
-      spaceName
-      created
+      nodes {
+        translated_title
+        id
+        spaceName
+        created
+        spaceDetails {
+          name
+        }
+      }
     }
-   }
   }
 `
 

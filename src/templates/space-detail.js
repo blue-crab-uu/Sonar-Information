@@ -56,7 +56,7 @@ const SpaceDetailTemplate = ({ data }) => {
                 </div>
                 
                 <div className="proposal-meta-row">
-                  From <span className="badge-space">{proposal.spaceName}</span>
+                  From <span className="badge-space">{spaceInfo.name}</span>
                   <span className="time-stamp">📅 创建于: {dateStr}</span>
                 </div>
               </Link>

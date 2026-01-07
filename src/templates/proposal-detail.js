@@ -21,7 +21,7 @@ const ProposalDetailTemplate = ({ data }) => {
       <span className="proposal-meta">
         <span className="from-label">From</span> 
         <Link className="space-link" to={`/spaces/${proposal.spaceName}`}>
-          {proposal.spaceName}
+          {proposal.spaceDetails.name || proposal.spaceName}
         </Link>
         <a className="space-link original-link" 
            target="_blank" 
@@ -62,6 +62,9 @@ export const query = graphql`
       spaceName
       proposalId
       created
+      spaceDetails {
+      name
+    }
     }
   }
 `
