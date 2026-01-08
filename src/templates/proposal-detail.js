@@ -4,13 +4,15 @@ import Layout from "../components/layout";
 import ReactMarkdown from "react-markdown"; // 1. 引入插件
 import remarkGfm from 'remark-gfm';
 import "../components/proposal.css";
+import remarkBreaks from 'remark-breaks';
 
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
   const created = new Date(proposal.created * 1000);
   if (!proposal) return <div>未找到提案</div>;
   
-
+// --- 核心修改：定义 Snapshot 官方网关 ---
+  const SNAPSHOT_GATEWAY = 'https://ipfs.snapshot.box/ipfs/';
 
 
   return (
@@ -43,10 +45,21 @@ const ProposalDetailTemplate = ({ data }) => {
 
       <section className="content-section">
         <h2>提案内容</h2>
-        {/* 2. 使用 ReactMarkdown 渲染内容 */}
-        <div className="markdown-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{proposal.translated_body}</ReactMarkdown>
-        </div>
+{/* 2. 使用 ReactMarkdown 渲染内容 */}
+<div className="markdown-body">
+  <ReactMarkdown 
+    remarkPlugins={[remarkGfm, remarkBreaks]}
+    // 新版本请使用 urlTransform
+    urlTransform={(uri) => 
+  uri.startsWith('ipfs://') 
+    ? uri.replace('ipfs://', SNAPSHOT_GATEWAY) 
+    : uri
+}
+  >
+    {/* 2. 传入前对全文进行一次字符串替换，确保所有 ipfs:// 都能转成正确的 https 地址 */}
+            {proposal.translated_body?.replace(/ipfs:\/\//g, SNAPSHOT_GATEWAY)}
+  </ReactMarkdown>
+</div>
       </section>
     </div>
     </Layout>
