@@ -8,7 +8,7 @@ const SpacesPage = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState("")
   
-  const itemsPerPage = 20 // 列表视图下，20条/页视觉上更整齐
+  const itemsPerPage = 21 // 列表视图下，20条/页视觉上更整齐
 
   const filteredSpaces = useMemo(() => {
     return allSpaces.filter(space => {

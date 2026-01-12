@@ -18,6 +18,14 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
+      {/* --- Hero Section --- */}
+      <section className={styles.heroSection}>
+        <h1 className={styles.heroTitle}>Explore DAO Proposals</h1>
+        <p className={styles.heroSubtitle}>
+          Discover, track, and analyze the latest governance proposals across the decentralized ecosystem.
+        </p>
+      </section>
+
       {/* --- 新增导航栏 --- */}
       <nav className={styles.topNav}>
         <button 

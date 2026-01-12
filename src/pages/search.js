@@ -29,21 +29,13 @@ const SearchPage = ({ data }) => {
           <div style={{ marginTop: "1rem" }}>
             <input
               type="text"
+              className="search-input-modern"
               placeholder="输入关键词，搜索翻译后的提案标题或空间名..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 20px",
-                borderRadius: "12px",
-                border: "2px solid #0071e3",
-                fontSize: "1.1rem",
-                outline: "none",
-                boxShadow: "0 4px 10px rgba(0,113,227,0.1)"
-              }}
             />
           </div>
-          <p style={{ color: "#666", marginTop: "10px" }}>
+          <p style={{ color: "var(--c-text-secondary)", marginTop: "16px", fontSize: "0.95rem" }}>
             {searchQuery ? `找到 ${filteredProposals.length} 个相关结果` : `共载入 ${allProposals.length} 个待命提案`}
           </p>
         </header>

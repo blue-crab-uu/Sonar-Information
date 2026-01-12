@@ -1,190 +1,189 @@
+﻿/* Proposal Detail Page */
 
-.space-link {
-  /* 基础形状：椭圆块 */
-  display: inline-block;
-  padding: 4px 16px;
-  background-color: #f5f5f7; /* 浅灰色背景，类似苹果风格 */
-  color: #0071e3;
-  text-decoration: none;
-  font-weight: 500;
-  border-radius: 20px; /* 足够大的半径形成椭圆 */
-  
-  /* 动画过渡：平滑改变背景色和阴影 */
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid transparent;
-}
-
-.space-link:hover {
-  background-color: #0071e3; /* 悬停变蓝色 */
-  color: #ffffff;            /* 文字变白 */
-  transform: translateY(-2px); /* 轻微上浮感 */
-  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3); /* 蓝色发光阴影 */
-  border-color: #0071e3;
-}
-
-/* 文字动态效果：悬停时文字微微“跳动”或放大 */
-.space-link:active {
-  transform: scale(0.95); /* 点击时缩小的反馈 */
-}
-
-/* 进阶动态：文字间隔扩张效果 */
-.space-link:hover {
-  letter-spacing: 0.5px; /* 字母间距微微张开，像声波扩散 */
-}
-.proposal-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px; /* 👈 这里控制两个椭圆块之间的间距，12px 比较自然 */
-  font-size: 0.9rem;
-  color: #3c3c4b; /* 淡淡的灰色，不抢主体的风头 */
-}
-
-/* "From" 标签的样式 */
-.from-label {
-  margin-right: -4px; /* 让 From 稍微靠近后面的名字 */
-  font-style: italic;
-  font-family: serif; /* 衬线体增加一点人文感 */
-  opacity: 0.8;
-}
-
-/* 原文链接的特殊样式 (可选) */
-/* 如果你想让“原文链接”和“项目名”有所区别，可以稍微改一下它的背景 */
-.original-link {
-  background-color: transparent;
-  border: 1px solid #d2d2d7; /* 变成细边框模式 */
-  color: #424245;
-}
-
-.original-link:hover {
-  background-color: #424245; /* 悬停变深色 */
-  border-color: #424245;
-  color: #ffffff;
-}
 .proposal-detail-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  line-height: 1.6;
-  color: #1d1d1f;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto; /* Center specifically */
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .detail-title {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: #000;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--c-text-main);
+  margin-bottom: 32px;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
 }
 
-/* Markdown 内容区样式 */
-.markdown-body {
+/* Meta Data Bar */
+.proposal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+  font-size: 1rem;
+  color: var(--c-text-secondary);
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.from-label {
+  color: var(--c-text-tertiary);
+  margin-right: 6px;
+}
+
+/* Space Link Chip */
+.space-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: var(--c-bg-surface);
+  color: var(--c-text-main);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 99px;
+  transition: all 0.2s ease;
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.space-link:hover {
+  background-color: var(--c-accent-light);
+  border-color: var(--c-accent-light);
+  box-shadow: var(--shadow-md);
+  color: var(--c-accent);
+  transform: translateY(-1px);
+}
+
+/* Original Link (ghost style) */
+.original-link {
+  background-color: transparent;
+  color: var(--c-text-secondary);
+  border: 1px solid var(--c-border);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.original-link:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  background: var(--c-bg-surface);
+}
+
+.discussion-link {
+  background-color: transparent;
+  color: var(--c-accent);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 8px 16px;
+}
+
+.discussion-link:hover {
+  text-decoration: underline;
+  color: var(--c-accent-hover);
+}
+
+.created-date {
+  color: var(--c-text-tertiary);
+  margin-left: auto; /* Push date to right if space permits */
+  font-size: 0.9rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--c-border);
+  border: none;
+  margin: 40px 0;
+}
+
+/* Content Typography */
+.summary-section,
+.content-section {
+    background: var(--c-bg-surface);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--c-border);
+    margin-bottom: 40px;
+}
+
+.summary-section h2,
+.content-section h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--c-text-main);
+  letter-spacing: -0.02em;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--c-bg-subtle);
+}
+
+.content-section p, 
+.summary-section p {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: #334155; /* Slate 700 for better readability */
+    margin-bottom: 20px;
+}
+
+.summary-text {
   font-size: 1.1rem;
-  color: #333;
+  line-height: 1.7;
+  color: var(--c-text-secondary);
+  background: var(--c-bg-subtle);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--c-accent);
+}
+
+/* Content & Markdown */
+.markdown-body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--c-text-main);
 }
 
 .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--c-text-main);
 }
 
 .markdown-body p {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .markdown-body ul, .markdown-body ol {
   padding-left: 1.5rem;
-  margin-bottom: 1.2rem;
-}
-
-.markdown-body li {
-  margin-bottom: 0.5rem;
-}
-
-.markdown-body strong {
-  color: #0071e3; /* 给加粗文字一点品牌色 */
+  margin-bottom: 1.5rem;
 }
 
 .markdown-body blockquote {
-  border-left: 4px solid #d2d2d7;
-  padding-left: 1rem;
-  color: #6e6e73;
+  border-left: 4px solid var(--c-border);
+  padding-left: 16px;
+  color: var(--c-text-secondary);
   margin: 1.5rem 0;
 }
 
-/* 分隔线样式 */
-.divider {
-  border: 0;
-  border-top: 1px solid #d2d2d7;
-  margin: 2rem 0;
-}
-
-/* 确保表格有边框和间距 */
-.markdown-body table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 20px 0;
-  display: block;      /* 允许移动端横向滚动 */
-  overflow-x: auto;
-}
-
-.markdown-body th, .markdown-body td {
-  border: 1px solid #dfe2e5;
-  padding: 10px 15px;
-  text-align: left;
-}
-
-.markdown-body th {
-  background-color: #f6f8fa;
-  font-weight: bold;
-}
-
-/* 隔行变色，让资产列表更易读 */
-.markdown-body tr:nth-child(even) {
-  background-color: #fafbfc;
-}
-
-
-
 .markdown-body img {
   max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 16px 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
-/* 讨论链接的专属样式 */
-.discussion-link {
-  background-color: #f5f5f7;
-  border: 1px solid #af52de; /* 苹果系统的紫色 */
-  color: #af52de;
-}
-
-.discussion-link:hover {
-  background-color: #af52de; /* 悬停变紫色 */
-  border-color: #af52de;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(175, 82, 222, 0.3); /* 紫色发光 */
-}
-
-/* 适配移动端：如果链接太多，允许自动换行且保持间距 */
-.proposal-meta {
-  display: flex; /* 改为 flex 更好处理换行 */
-  flex-wrap: wrap; 
-  align-items: center;
-  gap: 10px;
-  line-height: 2; /* 换行时增加行间距 */
-}
-
-/* 统一微调所有元数据内的链接 */
-.space-link {
-  white-space: nowrap; /* 避免按钮内的文字换行 */
-  font-size: 0.85rem;
-}
-
-/* 创建日期的样式微调 */
-.created-date {
-  font-size: 0.85rem;
-  color: #86868b;
-  margin-left: 5px;
+.markdown-body a {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
