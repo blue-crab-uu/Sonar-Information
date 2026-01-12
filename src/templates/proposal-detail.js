@@ -9,7 +9,7 @@ import remarkBreaks from 'remark-breaks';
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
   const created = new Date(proposal.created * 1000);
-  if (!proposal) return <div>未找到提案</div>;
+  if (!proposal) return <Layout>未找到提案</Layout>;
   
 // --- 核心修改：定义 Snapshot 官方网关 ---
   const SNAPSHOT_GATEWAY = 'https://ipfs.snapshot.box/ipfs/';
@@ -22,15 +22,26 @@ const ProposalDetailTemplate = ({ data }) => {
       
       <span className="proposal-meta">
         <span className="from-label">From</span> 
-        <Link className="space-link" to={`/spaces/${proposal.spaceName}`}>
-          {proposal.spaceDetails.name || proposal.spaceName}
+        <Link className="space-link" to={`/spaces/${proposal.space}`}>
+          {proposal.space_name }
         </Link>
         <a className="space-link original-link" 
            target="_blank" 
            rel="noopener noreferrer" 
-           href={`https://snapshot.box/#/s:${proposal.spaceName}/proposal/${proposal.proposalId}`}>
+          //  href={`https://snapshot.box/#/s:${proposal.spaceName}/proposal/${proposal.proposalId}`}
+          href={proposal.link}
+           >
           原文链接
         </a>
+            {proposal.discussion && (
+          <a className="space-link discussion-link" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              href={proposal.discussion}
+            >
+            💬 参与讨论
+           </a>
+               )}
         <span className="created-date">创建于: {created.toLocaleDateString()}</span>
       </span>
 
@@ -61,6 +72,8 @@ const ProposalDetailTemplate = ({ data }) => {
   </ReactMarkdown>
 </div>
       </section>
+
+
     </div>
     </Layout>
   )
@@ -68,16 +81,16 @@ const ProposalDetailTemplate = ({ data }) => {
 
 export const query = graphql`
   query($id: String!) {
-    proposal(id: { eq: $id }) {
+    proposal(proposalId: { eq: $id }) {
       short_summary
       translated_body
       translated_title
-      spaceName
+      space
+      space_name
       proposalId
       created
-      spaceDetails {
-      name
-    }
+      link
+      discussion
     }
   }
 `

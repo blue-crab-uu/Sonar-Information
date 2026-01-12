@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useMemo } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
 import "../components/space-detail.css"
@@ -10,13 +10,16 @@ const SearchPage = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeSort, setActiveSort] = useState("latest") // 默认选中最新
 
-  const filteredProposals = allProposals.filter(proposal => {
-    const title = proposal.translated_title?.toLowerCase() || ""
-    const space = proposal.spaceName?.toLowerCase() || ""
-    const spaceDetailsName = proposal.spaceDetails.name?.toLowerCase() || ""
-    const query = searchQuery.toLowerCase()
-    return title.includes(query) || space.includes(query) || spaceDetailsName.includes(query)
-  })
+  const filteredProposals = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase()
+    if (!query) return allProposals
+
+    return allProposals.filter((proposal) => {
+      const title = (proposal.translated_title || "").toLowerCase()
+      const space = (proposal.space || "").toLowerCase()
+      return title.includes(query) || space.includes(query)
+    })
+  }, [allProposals, searchQuery])
 
   return (
     <Layout>
@@ -57,11 +60,11 @@ const SearchPage = ({ data }) => {
         </nav>
 
         <div className="proposal-list-wrapper">
-          {filteredProposals.length > 0 ? (
+            {filteredProposals.length > 0 ? (
             filteredProposals.slice(0, 50).map((proposal, index) => (
               <Link 
                 key={proposal.id} 
-                to={`/${proposal.spaceName}/${proposal.id}`} 
+                to={`/${proposal.space}/${proposal.proposalId}`} 
                 className="proposal-card-link"
               >
                 <div className="proposal-title-row">
@@ -69,7 +72,7 @@ const SearchPage = ({ data }) => {
                   {proposal.translated_title}
                 </div>
                 <div className="proposal-meta-row">
-                  From <span className="badge-space">{proposal.spaceDetails.name}</span>
+                  From <span className="badge-space">{proposal.space}</span>
                   <span>📅 {new Date(proposal.created * 1000).toLocaleDateString()}</span>
                 </div>
               </Link>
@@ -91,11 +94,9 @@ export const query = graphql`
       nodes {
         id
         translated_title
-        spaceName
+        space
+        proposalId
         created
-        spaceDetails {
-          name
-        }
       }
     }
   }

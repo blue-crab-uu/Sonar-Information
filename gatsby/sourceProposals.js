@@ -22,7 +22,7 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
           const nodeData = {
             ...proposal,
             proposalId: proposal.id,
-            spaceName: spaceId,   
+            space: spaceId,   
             id: createNodeId(`proposal-${proposal.id}`),
             internal: {
               type: 'Proposal',

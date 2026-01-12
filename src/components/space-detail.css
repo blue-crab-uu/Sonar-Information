@@ -96,6 +96,13 @@
   font-weight: 500;
 }
 
+.badge-space2 {
+  background: #ffffff;
+  color: #0071e3;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
 .time-stamp {
   display: flex;
   align-items: center;

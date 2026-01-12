@@ -8,8 +8,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     query {
       allProposal {
         nodes {
-          id
-          spaceName
+          proposalId
+          space
         }
       }
     }
@@ -26,17 +26,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // 2. 遍历每个提案，创建页面
   proposals.forEach((proposal) => {
     // 优先使用原始 ID 作为路径，如果没有就用 Gatsby 生成的 ID
-    const pathId =  proposal.id;
-    const pathName = proposal.spaceName;
+    const pathId =  proposal.proposalId;
+    const pathName = proposal.space;
 
     createPage({
-      // 浏览器访问的路径，例如：/proposal/0x123...
+      // 浏览器访问的路径，例如：/stgdao.eth/0x123...
       path: `/${pathName}/${pathId}`,
       // 使用哪个模板
       component: template,
       // 传递给模板 GraphQL 查询的变量
       context: {
-        id: proposal.id, // 这个 id 会传给模板里的 $id 变量
+        id: proposal.proposalId, // 这个 id 会传给模板里的 $id 变量
         
       },
     });

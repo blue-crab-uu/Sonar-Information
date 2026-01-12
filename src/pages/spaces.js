@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react" // 引入 useMemo 优化性能
+import React, { useState, useMemo } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
 import "../components/space.css"
@@ -6,11 +6,10 @@ import "../components/space.css"
 const SpacesPage = ({ data }) => {
   const allSpaces = data.allSpaceInfo.nodes
   const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState("") // 🔍 1. 增加搜索状态
+  const [searchTerm, setSearchTerm] = useState("")
   
-  const itemsPerPage = 21
+  const itemsPerPage = 20 // 列表视图下，20条/页视觉上更整齐
 
-  // 🔍 2. 根据搜索词过滤数据
   const filteredSpaces = useMemo(() => {
     return allSpaces.filter(space => {
       const sName = (space.name || "").toLowerCase()
@@ -20,16 +19,14 @@ const SpacesPage = ({ data }) => {
     })
   }, [allSpaces, searchTerm])
 
-  // 🔍 3. 搜索后重新计算分页
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentSpaces = filteredSpaces.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(filteredSpaces.length / itemsPerPage)
 
-  // 处理搜索输入变更
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value)
-    setCurrentPage(1) // 🔍 搜索时重置回第一页
+    setCurrentPage(1)
   }
 
   return (
@@ -37,12 +34,11 @@ const SpacesPage = ({ data }) => {
       <div className="spaces-container">
         <h1 className="page-title">📡 探测到的空间</h1>
 
-        {/* 🔍 4. 增加搜索框 UI */}
         <div className="search-section">
           <input
             type="text"
             className="space-search-input"
-            placeholder="搜索空间名称"
+            placeholder="搜索空间名称或 ID..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -53,7 +49,8 @@ const SpacesPage = ({ data }) => {
           )}
         </div>
         
-        <div className="space-grid">
+        {/* 这里由 grid 改为 list */}
+        <div className="space-list">
           {currentSpaces.map((space, index) => (
             <Link 
               key={space.id} 
@@ -68,21 +65,32 @@ const SpacesPage = ({ data }) => {
               </div>
               
               <div className="space-meta">
-                <span className="meta-badge">👥 关注 {space.followersCount}</span>
-                <span className="meta-badge">📊 提案 {space.proposalsCount}</span>
+                <span className="meta-badge">👥 {space.followersCount.toLocaleString()} 关注</span>
+                <span className="meta-badge">📊 {space.proposalsCount} 提案</span>
+                <span className="meta-badge">🏷️ {space.verified ? "已验证" : "未验证"}</span>
+                <span className="meta-badge">✅ {space.votesCount.toLocaleString()} 投票数</span>
+                {/* 增加翻译分类显示逻辑 */}
+                {space.translateCategories && 
+                  (typeof space.translateCategories === 'string' 
+                    ? space.translateCategories.trim() !== '' 
+                    : Object.keys(space.translateCategories).length > 0) && (
+                  <span className="meta-badge">
+                    🌐 {Array.isArray(space.translateCategories) 
+                      ? space.translateCategories.join('     ') 
+                      : space.translateCategories}
+                  </span>
+                )}
               </div>
             </Link>
           ))}
         </div>
 
-        {/* 无结果时的提示 */}
         {filteredSpaces.length === 0 && (
           <div className="no-results">
             🚀 未找到匹配的空间，换个词试试？
           </div>
         )}
 
-        {/* --- 分页导航条 --- */}
         {totalPages > 1 && (
           <div className="pagination">
             <button 
@@ -121,11 +129,17 @@ export const query = graphql`
   query MyQuery {
     allSpaceInfo(sort: {followersCount: DESC}) {
       nodes {
-        followersCount
-        id
-        proposalsCount
-        space
-        name
+      coingecko
+      followersCount
+      github
+      id
+      name
+      proposalsCount
+      space
+      twitter
+      verified
+      votesCount
+      translateCategories
       }
     }
   }

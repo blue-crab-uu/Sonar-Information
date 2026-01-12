@@ -9,9 +9,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     allSpaceInfo(sort: {followersCount: DESC}) {
     nodes {
       space
-      id
-      followersCount
       name
+      
     }
     }
    }
@@ -31,13 +30,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const pathName = space.space;
 
     createPage({
-      // 浏览器访问的路径，例如：/proposal/0x123...
+      // 浏览器访问的路径
       path: `/spaces/${pathName}`,
       // 使用哪个模板
       component: template,
       // 传递给模板 GraphQL 查询的变量
       context: {
-        spaceName: space.space, 
+        spaceId: pathName, // 这个 id 会传给模板里的 $id 变量
         
       },
     });

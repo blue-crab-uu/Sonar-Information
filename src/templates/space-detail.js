@@ -21,14 +21,18 @@ const SpaceDetailTemplate = ({ data }) => {
         
         {/* --- 空间信息头部 --- */}
         <header className="space-header-section">
-          <h1>{spaceInfo.name || spaceInfo.space} 空间站</h1>
+          <h1>{spaceInfo.space_name || spaceInfo.space} 空间站</h1>
           <div className="space-stats-bar">
             <div className="stat-item">
-              📊 提案总数: <strong>{spaceInfo.proposalsCount}</strong>
+              📊 提案总数: <strong>{spaceInfo.proposalsCount?.toLocaleString?.() ?? spaceInfo.proposalsCount}</strong>
             </div>
             <div className="stat-item">
-              👥 关注人数: <strong>{spaceInfo.followersCount}</strong>
+              👥 关注人数: <strong>{spaceInfo.followersCount?.toLocaleString?.() ?? spaceInfo.followersCount}</strong>
             </div>
+            <div className="stat-item">
+              🏷️ 分类标签: <strong>{Array.isArray(spaceInfo.translateCategories) ? spaceInfo.translateCategories.filter(Boolean).join(" • ") || "无" : spaceInfo.translateCategories || "无"}</strong>
+            </div>
+            
           </div>
         </header>
 
@@ -44,8 +48,8 @@ const SpaceDetailTemplate = ({ data }) => {
 
             return (
               <Link 
-                key={proposal.id} 
-                to={`/${proposal.spaceName}/${proposal.id}`} 
+                key={proposal.proposalId} 
+                to={`/${proposal.space}/${proposal.proposalId}`} 
                 className="proposal-card-link"
               >
                 <div className="proposal-title-row">
@@ -56,7 +60,7 @@ const SpaceDetailTemplate = ({ data }) => {
                 </div>
                 
                 <div className="proposal-meta-row">
-                  From <span className="badge-space">{spaceInfo.name}</span>
+                  From <span className="badge-space">{spaceInfo.space_name}</span>
                   <span className="time-stamp">📅 创建于: {dateStr}</span>
                 </div>
               </Link>
@@ -101,22 +105,23 @@ const SpaceDetailTemplate = ({ data }) => {
 
 
 export const query = graphql`
-  query($spaceName: String!) {
-    spaceInfo(space: { eq: $spaceName }) {
+  query($spaceId: String!) {
+    spaceInfo(space: { eq: $spaceId }) {
       space
       followersCount
       id
       proposalsCount
-      name
+      name  
+      translateCategories
     }
-    allProposal(filter: {spaceName: {eq: $spaceName}}) {
-    nodes {
-      translated_title
-      spaceName
-      id
-      created
+    allProposal(filter: {space: {eq: $spaceId}}, sort: {created: DESC}) {
+      nodes {
+        translated_title
+        space
+        proposalId
+        created
+      }
     }
-  }
   }
 `
 export default SpaceDetailTemplate

@@ -33,7 +33,7 @@ const IndexPage = ({ data }) => {
         {currentProposals.map((proposal, index) => (
           <Link 
             key={proposal.id} 
-            to={`/${proposal.spaceName}/${proposal.id}`} 
+            to={`/${proposal.space}/${proposal.proposalId}`} 
             className={styles.proposalCard}
           >
             <span className={styles.proposalTitle}>
@@ -44,10 +44,11 @@ const IndexPage = ({ data }) => {
             </span>
             
             <div className={styles.proposalMeta}>
-              From <span className={styles.spaceBadge}>{proposal.spaceDetails.name}</span>
+              From <span className={styles.spaceBadge}>{proposal.space_name}</span>
               <span className={styles.spaceBadge}>
                 创建于: {new Date(proposal.created * 1000).toLocaleDateString()}
               </span> 
+              <span className={styles.spaceBadge}>{proposal.translate_categories}</span>
             </div>
           </Link>
         ))}
@@ -91,13 +92,12 @@ export const query = graphql`
   query {
     allProposal(sort: {created: DESC}) {
       nodes {
-        translated_title
-        id
-        spaceName
-        created
-        spaceDetails {
-          name
-        }
+      translated_title
+      created
+      space
+      space_name
+      proposalId
+      translate_categories
       }
     }
   }
