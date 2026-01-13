@@ -70,7 +70,35 @@
     justify-content: center;
     align-items: center;
     margin-top: 48px;
-    gap: 16px;
+    gap: 12px;
+    flex-wrap: wrap; /* Adapt for mobile */
+}
+
+.jumpContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid var(--c-border);
+}
+
+.pageInput {
+    padding: 8px 12px;
+    border: 1px solid var(--c-border);
+    border-radius: 8px;
+    width: 64px;
+    text-align: center;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+    background: var(--c-bg-surface);
+    color: var(--c-text-main);
+}
+
+.pageInput:focus {
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 2px var(--c-accent-light);
 }
 
 .pageBtn {
@@ -165,4 +193,48 @@
     height: 3px;
     background: var(--c-accent);
     border-radius: 3px 3px 0 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .jumpContainer {
+        border-left: none;
+        margin-left: 0;
+        padding-left: 0;
+        width: 100%;
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    .heroSection {
+        padding: 40px 16px;
+        margin-bottom: 24px;
+    }
+
+    .heroTitle {
+        font-size: 2rem; /* Smaller hero title */
+    }
+
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+
+    .proposalCard {
+        padding: 20px; /* Reduced card padding */
+    }
+
+    .proposalTitle {
+        font-size: 1.1rem;
+    }
+
+    .listContainer {
+        gap: 16px;
+    }
+    
+    .topNav {
+        overflow-x: auto; /* Scrollable nav */
+        padding-bottom: 8px; /* Room for scrollbar if needed */
+        margin-bottom: 16px;
+        white-space: nowrap;
+    }
 }

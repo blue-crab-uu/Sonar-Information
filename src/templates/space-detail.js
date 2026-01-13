@@ -21,7 +21,7 @@ const SpaceDetailTemplate = ({ data }) => {
         
         {/* --- 空间信息头部 --- */}
         <header className="space-header-section">
-          <h1>{spaceInfo.space_name || spaceInfo.space} 空间站</h1>
+          <h1>{spaceInfo.name || spaceInfo.space} Space</h1>
           <div className="space-stats-bar">
             <div className="stat-item">
               📊 提案总数: <strong>{spaceInfo.proposalsCount?.toLocaleString?.() ?? spaceInfo.proposalsCount}</strong>
@@ -60,7 +60,7 @@ const SpaceDetailTemplate = ({ data }) => {
                 </div>
                 
                 <div className="proposal-meta-row">
-                  From <span className="badge-space">{spaceInfo.space_name}</span>
+                  From <span className="badge-space">{spaceInfo.name}</span>
                   <span className="time-stamp">📅 创建于: {dateStr}</span>
                 </div>
               </Link>

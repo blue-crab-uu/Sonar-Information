@@ -9,7 +9,8 @@ const IndexPage = ({ data }) => {
   // --- 状态管理 ---
   const [currentPage, setCurrentPage] = useState(1)
   const [activeSort, setActiveSort] = useState("latest") // 默认为“最新”
-  
+  const [jumpPage, setJumpPage] = useState("") // 跳转页码输入
+
   const itemsPerPage = 20
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -68,6 +69,17 @@ const IndexPage = ({ data }) => {
           <button 
             className={styles.pageBtn}
             onClick={() => {
+              setCurrentPage(1)
+              window.scrollTo(0, 0)
+            }}
+            disabled={currentPage === 1}
+          >
+            首页
+          </button>
+
+          <button 
+            className={styles.pageBtn}
+            onClick={() => {
               setCurrentPage(prev => Math.max(prev - 1, 1))
               window.scrollTo(0, 0)
             }}
@@ -90,6 +102,41 @@ const IndexPage = ({ data }) => {
           >
             下一页
           </button>
+
+          <div className={styles.jumpContainer}>
+            <input 
+              type="number"
+              min="1"
+              max={totalPages}
+              value={jumpPage}
+              onChange={(e) => setJumpPage(e.target.value)}
+              placeholder="页码"
+              className={styles.pageInput}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const p = parseInt(jumpPage)
+                  if (p >= 1 && p <= totalPages) {
+                    setCurrentPage(p)
+                    window.scrollTo(0, 0)
+                    setJumpPage("")
+                  }
+                }
+              }}
+            />
+            <button 
+              className={styles.pageBtn}
+              onClick={() => {
+                const p = parseInt(jumpPage)
+                if (p >= 1 && p <= totalPages) {
+                  setCurrentPage(p)
+                  window.scrollTo(0, 0)
+                  setJumpPage("")
+                }
+              }}
+            >
+              跳转
+            </button>
+          </div>
         </div>
       )}
     </Layout>

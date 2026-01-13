@@ -147,7 +147,15 @@
 }
 
 .time-stamp {
-  color: var(--c-text-tertiary);
+  color: var(--c-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  background: var(--c-bg-subtle);
+  border-radius: 6px;
 }
 
 /* Pagination */
@@ -183,4 +191,49 @@
 .page-indicator {
   color: var(--c-text-secondary);
   font-variant-numeric: tabular-nums;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .space-header-section {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .space-header-section h1 {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+  }
+
+  /* Make stats stack or scroll if needed, but wrapping is fine */
+  .space-stats-bar {
+    gap: 10px;
+  }
+
+  .stat-item {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    width: 100%; /* Full width stats on mobile look good too, or keep auto */
+    justify-content: center;
+    background: rgba(255,255,255,0.8); /* More cover for readability */
+  }
+
+  .proposal-card-link {
+    padding: 20px;
+  }
+
+  .proposal-title-row {
+    font-size: 1.1rem;
+    flex-direction: column; /* Stack index and title? Or keep row */
+    gap: 8px;
+  }
+  
+  .proposal-index {
+    color: var(--c-accent); /* Make index more visible as a header */
+    font-size: 0.8rem;
+    background: var(--c-bg-subtle);
+    padding: 2px 6px;
+    border-radius: 4px;
+    align-self: flex-start;
+  }
 }
