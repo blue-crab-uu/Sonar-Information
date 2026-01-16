@@ -4,6 +4,7 @@ import Layout from "../components/layout"
 import "../components/space-detail.css"
 // 导入主页的 CSS Module 来复用导航栏样式，确保 UI 统一
 import * as navStyles from "../components/index.module.css" 
+import Seo from "../components/seo"
 
 const SearchPage = ({ data }) => {
   const allProposals = data.allProposal.nodes
@@ -93,5 +94,13 @@ export const query = graphql`
     }
   }
 `
+
+export const Head = ({ location }) => (
+  <Seo
+    title="搜索提案"
+    description="按关键字检索已翻译的 DAO 治理提案，快速定位感兴趣的空间与议题。"
+    pathname={location?.pathname}
+  />
+)
 
 export default SearchPage

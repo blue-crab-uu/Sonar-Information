@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
+import Seo from "../components/seo"
 import * as styles from "../components/index.module.css"
 
 const IndexPage = ({ data }) => {
@@ -57,7 +58,14 @@ const IndexPage = ({ data }) => {
               <span className={styles.spaceBadge}>
                 创建于: {new Date(proposal.created * 1000).toLocaleDateString()}
               </span> 
-              <span className={styles.spaceBadge}>{proposal.translate_categories}</span>
+              {(Array.isArray(proposal.translate_categories) ? proposal.translate_categories.length > 0 : proposal.translate_categories) && (
+                <span className={styles.spaceBadge}>{Array.isArray(proposal.translate_categories) 
+                        ? proposal.translate_categories.join('     ') 
+                        : proposal.translate_categories}</span>
+              )}
+              {proposal.keyAudience && (
+                <span className={styles.spaceBadge}>🎯 {proposal.keyAudience}</span>
+              )}
             </div>
           </Link>
         ))}
@@ -153,9 +161,19 @@ export const query = graphql`
       space_name
       proposalId
       translate_categories
+      keyAudience
+
       }
     }
   }
 `
+
+export const Head = ({ location }) => (
+  <Seo
+    title="DAO 提案翻译导航"
+    description="浏览最新翻译的 DAO 治理提案，快速跳转到各空间的提案详情与摘要。"
+    pathname={location?.pathname}
+  />
+)
 
 export default IndexPage

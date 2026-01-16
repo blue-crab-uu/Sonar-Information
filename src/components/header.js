@@ -46,7 +46,7 @@ const Header = () => {
             搜索
           </Link>
           <Link className="nav-btn" activeClassName="active" to="/spaces">
-            Spaces
+            空间
           </Link>
         </nav>
       </div>

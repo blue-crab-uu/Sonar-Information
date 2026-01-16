@@ -153,6 +153,8 @@
     margin-bottom: 16px;
     background: linear-gradient(135deg, var(--c-text-main) 0%, var(--c-accent) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.04em;
 }

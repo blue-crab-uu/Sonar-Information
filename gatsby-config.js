@@ -15,6 +15,7 @@ module.exports = {
     title: `声呐信息 | Sonar Information`,
     description: `深耕 DAO 治理，探测全球治理提案，提供精准的中文翻译与摘要。`,
     author: `@SonarInfo`,
+    twitterUsername: `@SonarInfo`,
     siteUrl: `https://your-domain.com`, // 替换为你的域名
   },
   plugins: [

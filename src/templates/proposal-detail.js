@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown"; // 1. 引入插件
 import remarkGfm from 'remark-gfm';
 import "../components/proposal.css";
 import remarkBreaks from 'remark-breaks';
+import Seo from "../components/seo"
 
 const ProposalDetailTemplate = ({ data }) => {
   const proposal = data.proposal;
@@ -50,27 +51,31 @@ const ProposalDetailTemplate = ({ data }) => {
       <section className="summary-section">
         <h2>摘要</h2>
         <p className="summary-text">{proposal.short_summary}</p>
+        <p >{proposal.riskIndication}</p>
+        <p >🎯 主要受众: {proposal.keyAudience}</p>
+        <p >🔥 重要性评分: {proposal.importanceScore} ({proposal.importanceLevel})</p>
+        <p className="note-text">（注：摘要由 AI 自动生成，可能与正文存在差异，仅供参考。）</p>
       </section>
 
       <hr className="divider" />
 
       <section className="content-section">
         <h2>提案内容</h2>
-{/* 2. 使用 ReactMarkdown 渲染内容 */}
-<div className="markdown-body">
-  <ReactMarkdown 
-    remarkPlugins={[remarkGfm, remarkBreaks]}
-    // 新版本请使用 urlTransform
-    urlTransform={(uri) => 
-  uri.startsWith('ipfs://') 
-    ? uri.replace('ipfs://', SNAPSHOT_GATEWAY) 
-    : uri
-}
-  >
-    {/* 2. 传入前对全文进行一次字符串替换，确保所有 ipfs:// 都能转成正确的 https 地址 */}
-            {proposal.translated_body?.replace(/ipfs:\/\//g, SNAPSHOT_GATEWAY)}
-  </ReactMarkdown>
-</div>
+      {/* 2. 使用 ReactMarkdown 渲染内容 */}
+      <div className="markdown-body">
+        <ReactMarkdown 
+          remarkPlugins={[remarkGfm, remarkBreaks]}
+          // 新版本请使用 urlTransform
+          urlTransform={(uri) => 
+        uri.startsWith('ipfs://') 
+          ? uri.replace('ipfs://', SNAPSHOT_GATEWAY) 
+          : uri
+      }
+        >
+          {/* 2. 传入前对全文进行一次字符串替换，确保所有 ipfs:// 都能转成正确的 https 地址 */}
+                  {proposal.translated_body?.replace(/ipfs:\/\//g, SNAPSHOT_GATEWAY)}
+        </ReactMarkdown>
+      </div>
       </section>
 
 
@@ -91,8 +96,27 @@ export const query = graphql`
       created
       link
       discussion
+      riskIndication
+      keyAudience
+      importanceScore
+      importanceLevel
     }
   }
 `
+
+export const Head = ({ data, location }) => {
+  const proposal = data?.proposal
+  const title = proposal?.translated_title || "提案详情"
+  const description = proposal?.short_summary || "查看提案的翻译全文与摘要"
+
+  return (
+    <Seo
+      title={title}
+      description={description}
+      pathname={location?.pathname}
+      article
+    />
+  )
+}
 
 export default ProposalDetailTemplate

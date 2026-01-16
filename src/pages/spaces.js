@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
+import Seo from "../components/seo"
 import "../components/space.css"
 
 const SpacesPage = ({ data }) => {
@@ -129,14 +130,12 @@ export const query = graphql`
   query MyQuery {
     allSpaceInfo(sort: {followersCount: DESC}) {
       nodes {
-      coingecko
+
       followersCount
-      github
       id
       name
       proposalsCount
       space
-      twitter
       verified
       votesCount
       translateCategories
@@ -144,6 +143,14 @@ export const query = graphql`
     }
   }
 `
+
+export const Head = ({ location }) => (
+  <Seo
+    title="治理空间目录"
+    description="按关注度浏览各 DAO 治理空间，查看提案数量、粉丝数与标签。"
+    pathname={location?.pathname}
+  />
+)
 
 export default SpacesPage
 
